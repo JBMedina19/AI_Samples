@@ -8,12 +8,12 @@ public enum OffMeshLinkMoveMethod
     Teleport,
     NormalSpeed,
     Parabola,
-    Curve
+    Curve,
+    Climb
 }
 public class AI_Agent : MonoBehaviour
 {
     public NavMeshAgent agent;
-    public Transform targetPos;
 
     public OffMeshLinkMoveMethod method;
     public AnimationCurve curve = new AnimationCurve();
@@ -21,7 +21,6 @@ public class AI_Agent : MonoBehaviour
     {
         
         NavMeshAgent agent = GetComponent<NavMeshAgent>();
-        agent.SetDestination(targetPos.position);
         agent.autoTraverseOffMeshLink = false;
         while (true)
         {
@@ -29,6 +28,8 @@ public class AI_Agent : MonoBehaviour
             {
                 if (method == OffMeshLinkMoveMethod.NormalSpeed)
                     yield return StartCoroutine(NormalSpeed(agent));
+                if (method == OffMeshLinkMoveMethod.Climb)
+                    yield return StartCoroutine(Climb(agent));
                 else if (method == OffMeshLinkMoveMethod.Parabola)
                     yield return StartCoroutine(Parabola(agent, 2.0f, 0.5f));
                 else if (method == OffMeshLinkMoveMethod.Curve)
@@ -45,6 +46,18 @@ public class AI_Agent : MonoBehaviour
         while (agent.transform.position != endPos)
         {
             agent.transform.position = Vector3.MoveTowards(agent.transform.position, endPos, agent.speed * Time.deltaTime);
+            yield return null;
+        }
+    } 
+    IEnumerator Climb(NavMeshAgent agent)
+    {
+        OffMeshLinkData data = agent.currentOffMeshLinkData;
+        Vector3 endPos = data.endPos + Vector3.up * agent.baseOffset;
+        Vector3 targetDir = endPos - agent.transform.position;
+        float angle = Mathf.Atan2(targetDir.y, targetDir.z) * Mathf.Rad2Deg;
+        while (agent.transform.position != endPos)
+        {
+            agent.transform.SetPositionAndRotation(Vector3.MoveTowards(agent.transform.position, endPos, agent.speed * Time.deltaTime), Quaternion.Euler(0, angle, 0));
             yield return null;
         }
     }

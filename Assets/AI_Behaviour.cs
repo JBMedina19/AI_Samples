@@ -31,18 +31,6 @@ public class AI_Behaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-
-        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-        if (distanceToPlayer <= playerFollowRange)
-        {
-            agent.SetDestination(player.position);
-        }
-
-        else
-        {
-            //Debug.Log(agent.pathPending);
-            //Debug.Log(agent.remainingDistance);
             //returns true or false, if AI has next destination.
             if (!agent.pathPending)
             {
@@ -59,6 +47,18 @@ public class AI_Behaviour : MonoBehaviour
 
 
                 }
+            }
+        if (gameObject.layer == LayerMask.NameToLayer("Walls_1"))
+        {
+            // Check if the NavMeshAgent component exists
+            if (agent != null)
+            {
+                // Set the rotation to zero along the X-axis
+                transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+            }
+            else
+            {
+                Debug.LogWarning("NavMeshAgent component not found on the GameObject.");
             }
         }
     }
