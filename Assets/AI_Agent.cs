@@ -28,7 +28,7 @@ public class AI_Agent : MonoBehaviour
             {
                 if (method == OffMeshLinkMoveMethod.NormalSpeed)
                     yield return StartCoroutine(NormalSpeed(agent));
-                else if (method == OffMeshLinkMoveMethod.Climb)
+                if (method == OffMeshLinkMoveMethod.Climb)
                     yield return StartCoroutine(Climb(agent));
                 else if (method == OffMeshLinkMoveMethod.Parabola)
                     yield return StartCoroutine(Parabola(agent, 2.0f, 0.5f));
@@ -54,15 +54,12 @@ public class AI_Agent : MonoBehaviour
         OffMeshLinkData data = agent.currentOffMeshLinkData;
         Vector3 endPos = data.endPos + Vector3.up * agent.baseOffset;
         Vector3 targetDir = endPos - agent.transform.position;
-        float angle = Mathf.Atan2(targetDir.y,targetDir.z) * Mathf.Rad2Deg;
+        float angle = Mathf.Atan2(targetDir.y, targetDir.z) * Mathf.Rad2Deg;
         while (agent.transform.position != endPos)
         {
-            agent.transform.SetPositionAndRotation
-            (Vector3.MoveTowards(agent.transform.position,endPos,agent.speed*Time.deltaTime),
-            Quaternion.Euler(0,angle,0));
+            agent.transform.SetPositionAndRotation(Vector3.MoveTowards(agent.transform.position, endPos, agent.speed * Time.deltaTime), Quaternion.Euler(0, angle, 0));
             yield return null;
         }
-
     }
     IEnumerator Parabola(NavMeshAgent agent, float height, float duration)
     {

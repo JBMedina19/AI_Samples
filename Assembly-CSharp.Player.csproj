@@ -61,8 +61,12 @@
     <Compile Include="Assets\AI_Behaviour.cs" />
     <Compile Include="Assets\AI_Follow_Patrol.cs" />
     <Compile Include="Assets\AI_Agent.cs" />
+    <Compile Include="Assets\EnemyController.cs" />
     <Compile Include="Assets\SimpleAI.cs" />
+    <Compile Include="Assets\PatrolState.cs" />
+    <Compile Include="Assets\ChaseState.cs" />
     <Compile Include="Assets\PointAtoB.cs" />
+    <Compile Include="Assets\IdleState.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

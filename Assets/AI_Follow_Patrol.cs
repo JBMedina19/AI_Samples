@@ -41,25 +41,7 @@ public class AI_Follow_Patrol : MonoBehaviour
     void Update()
     {
         float distanceToPlayer = Vector3.Distance(transform.position, playerPosition.position);
-        switch (aiState)
-        {
-            case e_AI_State.FollowPlayer:
-                agent.SetDestination(playerPosition.position);
-                followDuration -= Time.deltaTime;
-                break;
-            case e_AI_State.Patrol:
-                followDuration += Time.deltaTime;
-                if (agent.remainingDistance <= agent.stoppingDistance && !agent.pathPending)
-                {
-                    if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
-                    {
-                        MoveToRandomWaypoint();
-                    }
-                }
-                break;
-            default:
-                break;
-        }
+       
 
         if (distanceToPlayer<= playerFollowRange)
         {

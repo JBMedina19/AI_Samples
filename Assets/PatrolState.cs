@@ -1,21 +1,40 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
-
+using System.Threading.Tasks;
 public class PatrolState : StateMachineBehaviour
 {
-    NavMeshAgent agent;
+    EnemyController enemyController;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        agent = animator.GetComponent<NavMeshAgent>();
+        enemyController = animator.GetComponentInParent<EnemyController>();
+        enemyController.MoveToRandomWaypoint();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        if (!enemyController.agent.pathPending)
+        {
+            //returns the distance of agent, if it is the same of stoping distance
+            if (enemyController.agent.remainingDistance <= enemyController.agent.stoppingDistance)
+            {
+                //if agent has no path or agent is standing still
+                if (!enemyController.agent.hasPath || enemyController.agent.velocity.sqrMagnitude == 0f)
+                {
+                    // Done
+                    Debug.Log("DestinationReached");
+                    enemyController.MoveToRandomWaypoint();
+                }
+            }
+        }
 
+        if (enemyController.distance<enemyController.radius)
+        {
+            animator.SetBool("isPatroling", false);
+            animator.SetBool("isChasing", true);
+        }
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
