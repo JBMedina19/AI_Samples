@@ -7,20 +7,35 @@ using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour
 {
-    public GameObject playerPosition,playerPositionStored;
+    [Header("State")]
+    public string currentState;
+    [Header("References")]
+    public Animator animator;
     public NavMeshAgent agent;
+    [Header("WayPoint")]
     public Transform Waypoints;
     public List<Transform> targetWaypoint;
     public int wayPointNumber;
     public bool isMoving;
+    [Header("AI_References")]
+    public float distanceToPlayer;
+    public float returnToPatrolDistance;
+    public Transform playerPosition;
     public float radius;
-    public float distance;
-    public float chaseDuration, chaseDurationStored;
+    public float chaseDuration;
+    [Header("BaseValues")]
+    public Transform playerPositionStored;
+    public float chaseDurationStored;
+    public float storedRadius;
+    [Header("Particle Effects")]
+    public GameObject slash;
+
     // Start is called before the first frame update
     void Start()
     {
         playerPositionStored = playerPosition;
         chaseDurationStored = chaseDuration;
+        storedRadius = radius;
         agent = GetComponent<NavMeshAgent>();
         foreach (Transform tr in Waypoints.GetComponentsInChildren<Transform>())
         {
@@ -32,22 +47,34 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        distance = Vector3.Distance(agent.transform.position, playerPosition.transform.position);
-        //returns true or false, if AI has next destination.
-        if (!agent.pathPending)
+        distanceToPlayer = Vector3.Distance(agent.transform.position, playerPosition.transform.position);
+        if (animator != null)
         {
-            //returns the distance of agent, if it is the same of stoping distance
-            if (agent.remainingDistance <= agent.stoppingDistance)
+            AnimationClip currentClip = GetCurrentAnimatorClip(animator, 0);
+
+            // Store the animation name as a string
+            if (currentClip != null)
             {
-                //if agent has no path or agent is standing still
-                if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
-                {
-                    // Done
-                    //MoveToRandomWaypoint();
-                }
-
-
+                currentState = currentClip.name;
             }
+            else
+            {
+                currentState = "No animation playing";
+            }
+        }
+        else
+        {
+            currentState = "Animator reference not set";
+        }
+        if (currentState == "AttackState")
+        {
+            Vector3 directionToPlayer = playerPosition.position - agent.transform.position;
+
+            // Calculate the rotation that looks in the direction of the player.
+            Quaternion lookRotation = Quaternion.LookRotation(directionToPlayer);
+
+            // Apply the rotation to this GameObject, but only in the Y-axis to face the player.
+            transform.rotation = Quaternion.Euler(0, lookRotation.eulerAngles.y, 0);
         }
     }
     public void MoveToRandomWaypoint()
@@ -80,10 +107,17 @@ public class EnemyController : MonoBehaviour
         //0 - 4
         return Random.Range(0, targetWaypoint.Count);
     }
+    private AnimationClip GetCurrentAnimatorClip(Animator anim, int layer)
+    {
+        AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(layer);
+        return anim.GetCurrentAnimatorClipInfo(layer)[0].clip;
+    }
 
     public void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, radius);
     }
+
+   
 }

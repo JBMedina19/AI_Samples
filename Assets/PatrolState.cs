@@ -15,6 +15,8 @@ public class PatrolState : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        enemyController.agent.stoppingDistance = 1;
+        #region Patrol Random WayPoints
         if (!enemyController.agent.pathPending)
         {
             //returns the distance of agent, if it is the same of stoping distance
@@ -24,17 +26,19 @@ public class PatrolState : StateMachineBehaviour
                 if (!enemyController.agent.hasPath || enemyController.agent.velocity.sqrMagnitude == 0f)
                 {
                     // Done
-                    Debug.Log("DestinationReached");
                     enemyController.MoveToRandomWaypoint();
+
                 }
             }
         }
-
-        if (enemyController.distance<enemyController.radius)
+        #endregion
+        #region Chase the player if detected
+        if (enemyController.distanceToPlayer<enemyController.radius)
         {
             animator.SetBool("isPatroling", false);
             animator.SetBool("isChasing", true);
         }
+        #endregion
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

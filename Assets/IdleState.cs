@@ -8,9 +8,11 @@ public class IdleState : StateMachineBehaviour
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public async void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        #region will patrol after 5 seconds
         await Task.Delay(5000);
         animator.SetBool("isIdle",false);
         animator.SetBool("isPatroling", true);
+        #endregion
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

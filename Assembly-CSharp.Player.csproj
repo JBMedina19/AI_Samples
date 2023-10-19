@@ -58,15 +58,39 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2022.3.6f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Hovl Studio\HSFiles\Scripts\HS_ProjectileMover.cs" />
+    <Compile Include="Assets\AnimationEvent.cs" />
     <Compile Include="Assets\AI_Behaviour.cs" />
     <Compile Include="Assets\AI_Follow_Patrol.cs" />
     <Compile Include="Assets\AI_Agent.cs" />
+    <Compile Include="Assets\AttackState.cs" />
     <Compile Include="Assets\EnemyController.cs" />
     <Compile Include="Assets\SimpleAI.cs" />
     <Compile Include="Assets\PatrolState.cs" />
+    <Compile Include="Assets\Hovl Studio\HSFiles\Scripts\HS_ProjectileMover2D.cs" />
+    <Compile Include="Assets\Hovl Studio\HSFiles\Scripts\For demo scenes\HS_DemoShooting.cs" />
     <Compile Include="Assets\ChaseState.cs" />
+    <Compile Include="Assets\Hovl Studio\HSFiles\Scripts\For demo scenes\HS_DemoShooting2D.cs" />
+    <Compile Include="Assets\Hovl Studio\HSFiles\Scripts\HS_ParticleCollisionInstance.cs" />
+    <Compile Include="Assets\Vefects\Anime Stylized VFX\Demo\Scripts\Activate_VFX.cs" />
     <Compile Include="Assets\PointAtoB.cs" />
     <Compile Include="Assets\IdleState.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Hovl Studio\AAA Projectiles Vol 1\Demo scenes\Readme.txt" />
+    <None Include="Assets\Hovl Studio\AAA Projectiles Vol 1\Prefabs\Readme.txt" />
+    <None Include="Assets\Hovl Studio\HSFiles\Shaders\DissolveNoise.shader" />
+    <None Include="Assets\Vefects\Anime Stylized VFX\Shared\Shaders\SH_VFX_T_Bomb.shader" />
+    <None Include="Assets\Vefects\Anime Stylized VFX\Shared\Shaders\SH_VFX_T_FresnBomb.shader" />
+    <None Include="Assets\Hovl Studio\HSFiles\Shaders\Blend_TwoSides.shader" />
+    <None Include="Assets\Hovl Studio\HSFiles\Shaders\Electricity.shader" />
+    <None Include="Assets\Hovl Studio\HSFiles\Shaders\Blend_CenterGlow.shader" />
+    <None Include="Assets\Vefects\Anime Stylized VFX\Overview Demo Readme.txt" />
+    <None Include="Assets\Vefects\Anime Stylized VFX\Shared\Shaders\SH_VFX_T_DissolveAdd.shader" />
+    <None Include="Assets\Vefects\Anime Stylized VFX\Shared\Shaders\SH_VFX_T_DissolveDisto.shader" />
+    <None Include="Assets\Hovl Studio\HSFiles\Shaders\BlendDistort.shader" />
+    <None Include="Assets\Hovl Studio\HSFiles\Shaders\AddTrail.shader" />
+    <None Include="Assets\Hovl Studio\HSFiles\Shaders\Add_CenterGlow.shader" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
